@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>心动小镇全攻略</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4ade80',
+                        'primary-dark': '#22c55e',
+                        'primary-darker': '#16a34a',
+                        'primary-light': '#bbf7d0',
+                        'primary-lighter': '#dcfce7',
+                        'primary-bg': '#f0fdf4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+        .page { display: none; }
+        .page.active { display: block; }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+        .faq-answer.open { max-height: 500px; }
+        .faq-icon { transition: transform 0.3s ease; }
+        .faq-icon.open { transform: rotate(45deg); }
+    </style>
+</head>
+<body class="bg-primary-bg text-gray-800 min-h-screen">
+
+<!-- 导航栏 -->
+<nav class="bg-white shadow-md sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="flex items-center justify-between h-14">
+            <a href="#" onclick="showPage('home')" class="text-lg font-bold text-primary-darker flex items-center gap-2">
+                <span class="text-2xl">🏡</span> 心动小镇攻略
+            </a>
+            <button onclick="toggleMenu()" class="md:hidden text-gray-600 text-2xl">☰</button>
+            <div class="hidden md:flex gap-1" id="nav-links-desktop">
+                <a href="#" onclick="showPage('home')" class="nav-link px-3 py-2 rounded-lg text-sm font-medium hover:bg-primary-lighter" data-page="home">首页</a>
+                <a href="#" onclick="showPage('map')" class="nav-link px-3 py-2 rounded-lg text-sm font-medium hover:bg-primary-lighter" data-page="map">地图图鉴</a>
+                <a href="#" onclick="showPage('furniture')" class="nav-link px-3 py-2 rounded-lg text-sm font-medium hover:bg-primary-lighter" data-page="furniture">家具图鉴</a>
+                <a href="#" onclick="showPage('fish')" class="nav-link px-3 py-2 rounded-lg text-sm font-medium hover:bg-primary-lighter" data-page="fish">鱼点大全</a>
+                <a href="#" onclick="showPage('faq')" class="nav-link px-3 py-2 rounded-lg text-sm font-medium hover:bg-primary-lighter" data-page="faq">常见问题</a>
+            </div>
+        </div>
+        <div class="hidden pb-3 md:hidden" id="mobile-menu">
+            <a href="#" onclick="showPage('home');toggleMenu()" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-primary-lighter">首页</a>
+            <a href="#" onclick="showPage('map');toggleMenu()" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-primary-lighter">地图图鉴</a>
+            <a href="#" onclick="showPage('furniture');toggleMenu()" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-primary-lighter">家具图鉴</a>
+            <a href="#" onclick="showPage('fish');toggleMenu()" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-primary-lighter">鱼点大全</a>
+            <a href="#" onclick="showPage('faq');toggleMenu()" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-primary-lighter">常见问题</a>
+        </div>
+    </div>
+</nav>
+
+<!-- ==================== 首页 ==================== -->
+<div id="page-home" class="page active">
+    <!-- Banner -->
+    <div class="bg-gradient-to-br from-primary to-emerald-600 text-white">
+        <div class="max-w-6xl mx-auto px-4 py-16 md:py-24 text-center">
+            <p class="text-5xl mb-4">🏡</p>
+            <h1 class="text-3xl md:text-5xl font-bold mb-4">《心动小镇》全攻略</h1>
+            <p class="text-lg md:text-xl opacity-90 mb-2">新手玩家的一站式指南</p>
+            <p class="text-sm opacity-75">地图 · 家具 · 钓鱼 · 常见问题，一网打尽</p>
+        </div>
+    </div>
+
+    <!-- 功能卡片 -->
+    <div class="max-w-6xl mx-auto px-4 py-12">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div onclick="showPage('map')" class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md cursor-pointer border border-gray-100 transition-shadow">
+                <div class="text-4xl mb-3">🗺️</div>
+                <h3 class="text-lg font-bold text-gray-800 mb-2">地图图鉴</h3>
+                <p class="text-sm text-gray-500">完整小镇地图，标注所有重要地点与隐藏区域</p>
+            </div>
+            <div onclick="showPage('furniture')" class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md cursor-pointer border border-gray-100 transition-shadow">
+                <div class="text-4xl mb-3">🪑</div>
+                <h3 class="text-lg font-bold text-gray-800 mb-2">家具图鉴</h3>
+                <p class="text-sm text-gray-500">全品类家具收录，打造你的梦想小屋</p>
+            </div>
+            <div onclick="showPage('fish')" class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md cursor-pointer border border-gray-100 transition-shadow">
+                <div class="text-4xl mb-3">🎣</div>
+                <h3 class="text-lg font-bold text-gray-800 mb-2">鱼点大全</h3>
+                <p class="text-sm text-gray-500">全鱼种出没时间与地点，钓鱼达人必备</p>
+            </div>
+            <div onclick="showPage('faq')" class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md cursor-pointer border border-gray-100 transition-shadow">
+                <div class="text-4xl mb-3">❓</div>
+                <h3 class="text-lg font-bold text-gray-800 mb-2">常见问题</h3>
+                <p class="text-sm text-gray-500">新手疑问快速解答，少走弯路</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 快速入门 -->
+    <div class="max-w-6xl mx-auto px-4 pb-12">
+        <div class="bg-white rounded-xl p-6 md:p-8 shadow-sm border border-gray-100">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">⚡ 新手快速入门</h2>
+            <div class="grid md:grid-cols-3 gap-4 text-sm text-gray-600">
+                <div class="flex gap-3">
+                    <span class="text-primary-darker font-bold text-lg">1</span>
+                    <div><strong class="text-gray-800">完成新手引导</strong><br>跟随NPC指引熟悉基本操作，领取初始工具和种子。</div>
+                </div>
+                <div class="flex gap-3">
+                    <span class="text-primary-darker font-bold text-lg">2</span>
+                    <div><strong class="text-gray-800">建设你的小屋</strong><br>采集材料升级房屋，解锁更多家具摆放空间。</div>
+                </div>
+                <div class="flex gap-3">
+                    <span class="text-primary-darker font-bold text-lg">3</span>
+                    <div><strong class="text-gray-800">探索小镇地图</strong><br>结交邻居、钓鱼种田，享受悠闲的小镇生活。</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== 地图图鉴 ==================== -->
+<div id="page-map" class="page">
+    <div class="max-w-6xl mx-auto px-4 py-8">
+        <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">🗺️ 地图图鉴</h1>
+        <p class="text-gray-500 mb-6">心动小镇完整地图与重要地点说明</p>
+
+        <!-- 地图占位图 -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-8">
+            <div class="bg-gradient-to-br from-primary-light to-emerald-100 flex items-center justify-center" style="min-height:300px; max-height:500px;">
+                <div class="text-center text-gray-500 p-8">
+                    <p class="text-6xl mb-3">🗺️</p>
+                    <p class="text-lg font-medium">心动小镇完整地图</p>
+                    <p class="text-sm mt-1">（占位图 — 请替换为实际地图图片）</p>
+                    <p class="text-xs mt-2 text-gray-400">替换方法：将下方 &lt;img&gt; 标签的 src 改为图片链接</p>
+                </div>
+            </div>
+            <!-- 取消注释并替换链接即可显示实际地图 -->
+            <!-- <img src="你的地图链接.jpg" alt="心动小镇地图" class="w-full"> -->
+        </div>
+
+        <!-- 重要地点表格 -->
+        <h2 class="text-xl font-bold text-gray-800 mb-4">📍 重要地点</h2>
+        <div class="overflow-x-auto rounded-xl border border-gray-100 shadow-sm">
+            <table class="w-full bg-white text-sm">
+                <thead>
+                    <tr class="bg-primary-lighter text-gray-700">
+                        <th class="px-4 py-3 text-left font-semibold whitespace-nowrap">序号</th>
+                        <th class="px-4 py-3 text-left font-semibold whitespace-nowrap">地点名称</th>
+                        <th class="px-4 py-3 text-left font-semibold whitespace-nowrap">位置</th>
+                        <th class="px-4 py-3 text-left font-semibold whitespace-nowrap">说明</th>
+                        <th class="px-4 py-3 text-left font-semibold whitespace-nowrap">备注</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                    <tr class="hover:bg-gray-50"><td class="px-4 py-3">1</td><td class="px-4 py-3 font-medium">小镇广场</td><td class="px-4 py-3 whitespace-nowrap">地图中央</td><td class="px-4 py-3">小镇核心区域，NPC聚集地，公告板在此</td><td class="px-4 py-3 text-gray-500">每日任务领取点</td></tr>
+                    <tr class="hover:bg-gray-50"><td class="px-4 py-3">2</td><td class="px-4 py-3 font-medium">杂货铺</td><td class="px-4 py-3 whitespace-nowrap">广场东侧</td><td class="px-4 py-3">购买种子、工具和日常物资</td><td class="px-4 py-3 text-gray-500">每日限定商品刷新</td></tr>
+                    <tr class="hover:bg-gray-50"><td class="px-4 py-3">3</td><td class="px-4 py-3 font-medium">码头</td><td class="px-4 py-3 whitespace-nowrap">地图南部</td><td class="px-4 py-3">钓鱼主要区域，可乘船前往离岛</td><td class="px-4 py-3 text-gray-500">稀有鱼种出没</td></tr>
+                    <tr class="hover:bg-gray-50"><td class="px-4 py-3">4</td><td class="px-4 py-3 font-medium">矿洞入口</td><td class="px-4 py-3 whitespace-nowrap">地图西北</td><td class="px-4 py-3">采矿获取矿石和宝石，共5层</td><td class="px-4 py-3 text-gray-500">需要镐子</td></tr>
+                    <tr class="hover:bg-gray-50"><td class="px-4 py-3">5</td><td class="px-4 py-3 font-medium">森林秘境</td><td class="px-4 py-3 whitespace-nowrap">地图东北</td><td class="px-4 py-3">采集木材和稀有蘑菇，隐藏事件触发地</td><td class="px-4 py-3 text-gray-500">夜晚有特殊NPC</td></tr>
+                    <tr class="hover:bg-gray-50"><td class="px-4 py-3">6</td><td class="px-4 py-3 font-medium">花田</td><td class="px-4 py-3 whitespace-nowrap">地图东部</td><td class="px-4 py-3">季节性花卉采集区，拍照打卡点</td><td class="px-4 py-3 text-gray-500">春季限定花种</td></tr>
+                    <tr class="hover:bg-gray-50"><td class="px-4 py-3">7</td><td class="px-4 py-3 font-medium">图书馆</td><td class="px-4 py-3 whitespace-nowrap">广场北侧</td><td class="px-4 py-3">查看图鉴、学习配方和技能升级</td><td class="px-4 py-3 text-gray-500">解锁新配方必去</td></tr>
+                    <tr class="hover:bg-gray-50"><td class="px-4 py-3">8</td><td class="px-4 py-3 font-medium">温泉</td><td class="px-4 py-3 whitespace-nowrap">地图西部山腰</td><td class="px-4 py-3">恢复体力，与邻居提升好感度的好去处</td><td class="px-4 py-3 text-gray-500">夜晚效果加倍</td></tr>
+                    <tr class="hover:bg-gray-50"><td class="px-4 py-3">9</td><td class="px-4 py-3 font-medium">农贸市场</td><td class="px-4 py-3 whitespace-nowrap">广场西侧</td><td class="px-4 py-3">出售农产品和手工物品，周末有集市</td><td class="px-4 py-3 text-gray-500">周末价格上浮20%</td></tr>
+                    <tr class="hover:bg-gray-50"><td class="px-4 py-3">10</td><td class="px-4 py-3 font-medium">灯塔</td><td class="px-4 py-3 whitespace-nowrap">地图最南端</td><td class="px-4 py-3">隐藏剧情触发地，可俯瞰全镇</td><td class="px-4 py-3 text-gray-500">需完成主线第三章</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== 家具图鉴 ==================== -->
+<div id="page-furniture" class="page">
+    <div class="max-w-6xl mx-auto px-4 py-8">
+        <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">🪑 家具图鉴</h1>
+        <p class="text-gray-500 mb-6">全品类家具收录，打造你的梦想小屋</p>
+
+        <!-- 分类筛选 -->
+        <div class="flex flex-wrap gap-2 mb-6">
+            <button onclick="filterFurniture('all')" class="fur-tab px-4 py-2 rounded-full text-sm font-medium bg-primary text-white">全部</button>
+            <button onclick="filterFurniture('desk')" class="fur-tab px-4 py-2 rounded-full text-sm font-medium bg-white text-gray-600 border border-gray-200">🪑 桌椅</button>
+            <button onclick="filterFurniture('bed')" class="fur-tab px-4 py-2 rounded-full text-sm font-medium bg-white text-gray-600 border border-gray-200">🛏️ 床</button>
+            <button onclick="filterFurniture('deco')" class="fur-tab px-4 py-2 rounded-full text-sm font-medium bg-white text-gray-600 border border-gray-200">🖼️ 装饰</button>
+            <button onclick="filterFurniture('elec')" class="fur-tab px-4 py-2 rounded-full text-sm font-medium bg-white text-gray-600 border border-gray-200">📺 电器</button>
+        </div>
+
+        <!-- 家具卡片 -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4" id="furniture-grid">
+            <!-- 桌椅类 -->
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="desk"><div class="bg-primary-lighter rounded-lg h-24 flex items-center justify-center text-3xl mb-3">🪑</div><h4 class="font-medium text-sm">原木餐椅</h4><p class="text-xs text-gray-400 mt-1">桌椅 · 普通</p><p class="text-xs text-primary-darker mt-1">💰 200金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="desk"><div class="bg-primary-lighter rounded-lg h-24 flex items-center justify-center text-3xl mb-3">🪵</div><h4 class="font-medium text-sm">原木书桌</h4><p class="text-xs text-gray-400 mt-1">桌椅 · 普通</p><p class="text-xs text-primary-darker mt-1">💰 350金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="desk"><div class="bg-primary-lighter rounded-lg h-24 flex items-center justify-center text-3xl mb-3">🍽️</div><h4 class="font-medium text-sm">花园餐桌</h4><p class="text-xs text-gray-400 mt-1">桌椅 · 稀有</p><p class="text-xs text-primary-darker mt-1">💰 800金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="desk"><div class="bg-primary-lighter rounded-lg h-24 flex items-center justify-center text-3xl mb-3">💺</div><h4 class="font-medium text-sm">天鹅绒沙发</h4><p class="text-xs text-gray-400 mt-1">桌椅 · 稀有</p><p class="text-xs text-primary-darker mt-1">💰 1200金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="desk"><div class="bg-primary-lighter rounded-lg h-24 flex items-center justify-center text-3xl mb-3">🪑</div><h4 class="font-medium text-sm">藤编摇椅</h4><p class="text-xs text-gray-400 mt-1">桌椅 · 普通</p><p class="text-xs text-primary-darker mt-1">💰 450金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="desk"><div class="bg-primary-lighter rounded-lg h-24 flex items-center justify-center text-3xl mb-3">🛋️</div><h4 class="font-medium text-sm">柠檬黄长凳</h4><p class="text-xs text-gray-400 mt-1">桌椅 · 普通</p><p class="text-xs text-primary-darker mt-1">💰 300金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="desk"><div class="bg-primary-lighter rounded-lg h-24 flex items-center justify-center text-3xl mb-3">🪵</div><h4 class="font-medium text-sm">石板茶几</h4><p class="text-xs text-gray-400 mt-1">桌椅 · 稀有</p><p class="text-xs text-primary-darker mt-1">💰 650金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="desk"><div class="bg-primary-lighter rounded-lg h-24 flex items-center justify-center text-3xl mb-3">🪑</div><h4 class="font-medium text-sm">竹编小凳</h4><p class="text-xs text-gray-400 mt-1">桌椅 · 普通</p><p class="text-xs text-primary-darker mt-1">💰 150金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="desk"><div class="bg-primary-lighter rounded-lg h-24 flex items-center justify-center text-3xl mb-3">🍵</div><h4 class="font-medium text-sm">日式矮桌</h4><p class="text-xs text-gray-400 mt-1">桌椅 · 精良</p><p class="text-xs text-primary-darker mt-1">💰 500金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="desk"><div class="bg-primary-lighter rounded-lg h-24 flex items-center justify-center text-3xl mb-3">🏖️</div><h4 class="font-medium text-sm">沙滩躺椅</h4><p class="text-xs text-gray-400 mt-1">桌椅 · 限定</p><p class="text-xs text-primary-darker mt-1">💰 900金币</p></div>
+            <!-- 床类 -->
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="bed"><div class="bg-blue-50 rounded-lg h-24 flex items-center justify-center text-3xl mb-3">🛏️</div><h4 class="font-medium text-sm">原木单人床</h4><p class="text-xs text-gray-400 mt-1">床 · 普通</p><p class="text-xs text-primary-darker mt-1">💰 400金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="bed"><div class="bg-blue-50 rounded-lg h-24 flex items-center justify-center text-3xl mb-3">🛌</div><h4 class="font-medium text-sm">公主双人床</h4><p class="text-xs text-gray-400 mt-1">床 · 稀有</p><p class="text-xs text-primary-darker mt-1">💰 1500金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="bed"><div class="bg-blue-50 rounded-lg h-24 flex items-center justify-center text-3xl mb-3">🛏️</div><h4 class="font-medium text-sm">云朵软床</h4><p class="text-xs text-gray-400 mt-1">床 · 精良</p><p class="text-xs text-primary-darker mt-1">💰 800金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="bed"><div class="bg-blue-50 rounded-lg h-24 flex items-center justify-center text-3xl mb-3">🏕️</div><h4 class="font-medium text-sm">露营帐篷床</h4><p class="text-xs text-gray-400 mt-1">床 · 限定</p><p class="text-xs text-primary-darker mt-1">💰 1000金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="bed"><div class="bg-blue-50 rounded-lg h-24 flex items-center justify-center text-3xl mb-3">🌙</div><h4 class="font-medium text-sm">月光摇篮</h4><p class="text-xs text-gray-400 mt-1">床 · 稀有</p><p class="text-xs text-primary-darker mt-1">💰 1200金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="bed"><div class="bg-blue-50 rounded-lg h-24 flex items-center justify-center text-3xl mb-3">🛏️</div><h4 class="font-medium text-sm">田园碎花床</h4><p class="text-xs text-gray-400 mt-1">床 · 普通</p><p class="text-xs text-primary-darker mt-1">💰 500金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="bed"><div class="bg-blue-50 rounded-lg h-24 flex items-center justify-center text-3xl mb-3">🌿</div><h4 class="font-medium text-sm">竹林凉榻</h4><p class="text-xs text-gray-400 mt-1">床 · 精良</p><p class="text-xs text-primary-darker mt-1">💰 700金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="bed"><div class="bg-blue-50 rounded-lg h-24 flex items-center justify-center text-3xl mb-3">⛺</div><h4 class="font-medium text-sm">星空吊床</h4><p class="text-xs text-gray-400 mt-1">床 · 限定</p><p class="text-xs text-primary-darker mt-1">💰 1800金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="bed"><div class="bg-blue-50 rounded-lg h-24 flex items-center justify-center text-3xl mb-3">🧸</div><h4 class="font-medium text-sm">小熊儿童床</h4><p class="text-xs text-gray-400 mt-1">床 · 普通</p><p class="text-xs text-primary-darker mt-1">💰 350金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="bed"><div class="bg-blue-50 rounded-lg h-24 flex items-center justify-center text-3xl mb-3">👑</div><h4 class="font-medium text-sm">皇家四柱床</h4><p class="text-xs text-gray-400 mt-1">床 · 传说</p><p class="text-xs text-primary-darker mt-1">💰 3000金币</p></div>
+            <!-- 装饰类 -->
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="deco"><div class="bg-pink-50 rounded-lg h-24 flex items-center justify-center text-3xl mb-3">🖼️</div><h4 class="font-medium text-sm">风景油画</h4><p class="text-xs text-gray-400 mt-1">装饰 · 精良</p><p class="text-xs text-primary-darker mt-1">💰 600金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="deco"><div class="bg-pink-50 rounded-lg h-24 flex items-center justify-center text-3xl mb-3">🌸</div><h4 class="font-medium text-sm">樱花盆栽</h4><p class="text-xs text-gray-400 mt-1">装饰 · 稀有</p><p class="text-xs text-primary-darker mt-1">💰 900金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="deco"><div class="bg-pink-50 rounded-lg h-24 flex items-center justify-center text-3xl mb-3">🕯️</div><h4 class="font-medium text-sm">香薰蜡烛</h4><p class="text-xs text-gray-400 mt-1">装饰 · 普通</p><p class="text-xs text-primary-darker mt-1">💰 150金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="deco"><div class="bg-pink-50 rounded-lg h-24 flex items-center justify-center text-3xl mb-3">🧶</div><h4 class="font-medium text-sm">手工地毯</h4><p class="text-xs text-gray-400 mt-1">装饰 · 精良</p><p class="text-xs text-primary-darker mt-1">💰 500金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="deco"><div class="bg-pink-50 rounded-lg h-24 flex items-center justify-center text-3xl mb-3">🪞</div><h4 class="font-medium text-sm">复古穿衣镜</h4><p class="text-xs text-gray-400 mt-1">装饰 · 稀有</p><p class="text-xs text-primary-darker mt-1">💰 750金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="deco"><div class="bg-pink-50 rounded-lg h-24 flex items-center justify-center text-3xl mb-3">🎍</div><h4 class="font-medium text-sm">落地花瓶</h4><p class="text-xs text-gray-400 mt-1">装饰 · 普通</p><p class="text-xs text-primary-darker mt-1">💰 250金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="deco"><div class="bg-pink-50 rounded-lg h-24 flex items-center justify-center text-3xl mb-3">🎀</div><h4 class="font-medium text-sm">蝴蝶结挂饰</h4><p class="text-xs text-gray-400 mt-1">装饰 · 普通</p><p class="text-xs text-primary-darker mt-1">💰 120金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="deco"><div class="bg-pink-50 rounded-lg h-24 flex items-center justify-center text-3xl mb-3">⭐</div><h4 class="font-medium text-sm">星星夜灯</h4><p class="text-xs text-gray-400 mt-1">装饰 · 精良</p><p class="text-xs text-primary-darker mt-1">💰 400金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="deco"><div class="bg-pink-50 rounded-lg h-24 flex items-center justify-center text-3xl mb-3">🐚</div><h4 class="font-medium text-sm">贝壳风铃</h4><p class="text-xs text-gray-400 mt-1">装饰 · 限定</p><p class="text-xs text-primary-darker mt-1">💰 1000金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="deco"><div class="bg-pink-50 rounded-lg h-24 flex items-center justify-center text-3xl mb-3">🎨</div><h4 class="font-medium text-sm">画架套装</h4><p class="text-xs text-gray-400 mt-1">装饰 · 稀有</p><p class="text-xs text-primary-darker mt-1">💰 850金币</p></div>
+            <!-- 电器类 -->
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="elec"><div class="bg-yellow-50 rounded-lg h-24 flex items-center justify-center text-3xl mb-3">📺</div><h4 class="font-medium text-sm">复古电视机</h4><p class="text-xs text-gray-400 mt-1">电器 · 精良</p><p class="text-xs text-primary-darker mt-1">💰 800金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="elec"><div class="bg-yellow-50 rounded-lg h-24 flex items-center justify-center text-3xl mb-3">🎵</div><h4 class="font-medium text-sm">唱片机</h4><p class="text-xs text-gray-400 mt-1">电器 · 稀有</p><p class="text-xs text-primary-darker mt-1">💰 1200金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="elec"><div class="bg-yellow-50 rounded-lg h-24 flex items-center justify-center text-3xl mb-3">💡</div><h4 class="font-medium text-sm">台灯</h4><p class="text-xs text-gray-400 mt-1">电器 · 普通</p><p class="text-xs text-primary-darker mt-1">💰 200金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="elec"><div class="bg-yellow-50 rounded-lg h-24 flex items-center justify-center text-3xl mb-3">❄️</div><h4 class="font-medium text-sm">迷你冰箱</h4><p class="text-xs text-gray-400 mt-1">电器 · 精良</p><p class="text-xs text-primary-darker mt-1">💰 600金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="elec"><div class="bg-yellow-50 rounded-lg h-24 flex items-center justify-center text-3xl mb-3">🍳</div><h4 class="font-medium text-sm">烤箱</h4><p class="text-xs text-gray-400 mt-1">电器 · 稀有</p><p class="text-xs text-primary-darker mt-1">💰 950金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="elec"><div class="bg-yellow-50 rounded-lg h-24 flex items-center justify-center text-3xl mb-3">☕</div><h4 class="font-medium text-sm">咖啡机</h4><p class="text-xs text-gray-400 mt-1">电器 · 精良</p><p class="text-xs text-primary-darker mt-1">💰 550金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="elec"><div class="bg-yellow-50 rounded-lg h-24 flex items-center justify-center text-3xl mb-3">🔊</div><h4 class="font-medium text-sm">蓝牙音箱</h4><p class="text-xs text-gray-400 mt-1">电器 · 普通</p><p class="text-xs text-primary-darker mt-1">💰 300金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="elec"><div class="bg-yellow-50 rounded-lg h-24 flex items-center justify-center text-3xl mb-3">🌀</div><h4 class="font-medium text-sm">空气净化器</h4><p class="text-xs text-gray-400 mt-1">电器 · 稀有</p><p class="text-xs text-primary-darker mt-1">💰 1000金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="elec"><div class="bg-yellow-50 rounded-lg h-24 flex items-center justify-center text-3xl mb-3">🧺</div><h4 class="font-medium text-sm">迷你洗衣机</h4><p class="text-xs text-gray-400 mt-1">电器 · 精良</p><p class="text-xs text-primary-darker mt-1">💰 700金币</p></div>
+            <div class="fur-card bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center" data-cat="elec"><div class="bg-yellow-50 rounded-lg h-24 flex items-center justify-center text-3xl mb-3">🎮</div><h4 class="font-medium text-sm">游戏主机</h4><p class="text-xs text-gray-400 mt-1">电器 · 传说</p><p class="text-xs text-primary-darker mt-1">💰 2500金币</p></div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== 鱼点大全 ==================== -->
+<div id="page-fish" class="page">
+    <div class="max-w-6xl mx-auto px-4 py-8">
+        <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">🎣 鱼点大全</h1>
+        <p class="text-gray-500 mb-6">全鱼种出没时间与地点，钓鱼达人必备</p>
+
+        <!-- 稀有度图例 -->
+        <div class="flex flex-wrap gap-3 mb-6 text-xs">
+            <span class="px-2 py-1 rounded-full bg-gray-100 text-gray-600">⬜ 普通</span>
+            <span class="px-2 py-1 rounded-full bg-green-100 text-green-700">🟩 良好</span>
+            <span class="px-2 py-1 rounded-full bg-blue-100 text-blue-700">🟦 稀有</span>
+            <span class="px-2 py-1 rounded-full bg-purple-100 text-purple-700">🟪 史诗</span>
+            <span class="px-2 py-1 rounded-full bg-amber-100 text-amber-700">🟨 传说</span>
+        </div>
+
+        <div class="overflow-x-auto rounded-xl border border-gray-100 shadow-sm">
+            <table class="w-full bg-white text-sm">
+                <thead>
+                    <tr class="bg-primary-lighter text-gray-700">
+                        <th class="px-4 py-3 text-left font-semibold whitespace-nowrap">图鉴</th>
+                        <th class="px-4 py-3 text-left font-semibold whitespace-nowrap">鱼类名称</th>
+                        <th class="px-4 py-3 text-left font-semibold whitespace-nowrap">出现时间</th>
+                        <th class="px-4 py-3 text-left font-semibold whitespace-nowrap">出现地点</th>
+                        <th class="px-4 py-3 text-left font-semibold whitespace-nowrap">稀有度</th>
+                        <th class="px-4 py-3 text-left font-semibold whitespace-nowrap">售价</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                    <tr class="hover:bg-gray-50"><td class="px-4 py-3 text-2xl">🐟</td><td class="px-4 py-3 font-medium">小鲫鱼</td><td class="px-4 py-3 whitespace-nowrap">全天</td><td class="px-4 py-3">小镇河流</td><td class="px-4 py-3"><span class="px-2 py-0.5 rounded-full text-xs bg-gray-100 text-gray-600">普通</span></td><td class="px-4 py-3">30金</td></tr>
+                    <tr class="hover:bg-gray-50"><td class="px-4 py-3 text-2xl">🐠</td><td class="px-4 py-3 font-medium">花斑鱼</td><td class="px-4 py-3 whitespace-nowrap">08:00-18:00</td><td class="px-4 py-3">码头浅滩</td><td class="px-4 py-3"><span class="px-2 py-0.5 rounded-full text-xs bg-green-100 text-green-700">良好</span></td><td class="px-4 py-3">80金</td></tr>
+                    <tr class="hover:bg-gray-50"><td class="px-4 py-3 text-2xl">🦐</td><td class="px-4 py-3 font-medium">水晶虾</td><td class="px-4 py-3 whitespace-nowrap">06:00-10:00</td><td class="px-4 py-3">森林溪流</td><td class="px-4 py-3"><span class="px-2 py-0.5 rounded-full text-xs bg-blue-100 text-blue-700">稀有</span></td><td class="px-4 py-3">200金</td></tr>
+                    <tr class="hover:bg-gray-50"><td class="px-4 py-3 text-2xl">🐡</td><td class="px-4 py-3 font-medium">河豚</td><td class="px-4 py-3 whitespace-nowrap">12:00-16:00</td><td class="px-4 py-3">码头深水区</td><td class="px-4 py-3"><span class="px-2 py-0.5 rounded-full text-xs bg-blue-100 text-blue-700">稀有</span></td><td class="px-4 py-3">250金</td></tr>
+                    <tr class="hover:bg-gray-50"><td class="px-4 py-3 text-2xl">🦀</td><td class="px-4 py-3 font-medium">大闸蟹</td><td class="px-4 py-3 whitespace-nowrap">18:00-22:00</td><td class="px-4 py-3">码头岩石区</td><td class="px-4 py-3"><span class="px-2 py-0.5 rounded-full text-xs bg-green-100 text-green-700">良好</span></td><td class="px-4 py-3">120金</td></tr>
+                    <tr class="hover:bg-gray-50"><td class="px-4 py-3 text-2xl">🐙</td><td class="px-4 py-3 font-medium">小章鱼</td><td class="px-4 py-3 whitespace-nowrap">20:00-04:00</td><td class="px-4 py-3">灯塔海域</td><td class="px-4 py-3"><span class="px-2 py-0.5 rounded-full text-xs bg-purple-100 text-purple-700">史诗</span></td><td class="px-4 py-3">500金</td></tr>
+                    <tr class="hover:bg-gray-50"><td class="px-4 py-3 text-2xl">🐟</td><td class="px-4 py-3 font-medium">锦鲤</td><td class="px-4 py-3 whitespace-nowrap">10:00-14:00</td><td class="px-4 py-3">温泉池塘</td><td class="px-4 py-3"><span class="px-2 py-0.5 rounded-full text-xs bg-purple-100 text-purple-700">史诗</span></td><td class="px-4 py-3">450金</td></tr>
+                    <tr class="hover:bg-gray-50"><td class="px-4 py-3 text-2xl">🦈</td><td class="px-4 py-3 font-medium">迷你鲨鱼</td><td class="px-4 py-3 whitespace-nowrap">00:00-06:00</td><td class="px-4 py-3">灯塔深海</td><td class="px-4 py-3"><span class="px-2 py-0.5 rounded-full text-xs bg-amber-100 text-amber-700">传说</span></td><td class="px-4 py-3">1200金</td></tr>
+                    <tr class="hover:bg-gray-50"><td class="px-4 py-3 text-2xl">🐚</td><td class="px-4 py-3 font-medium">珍珠蚌</td><td class="px-4 py-3 whitespace-nowrap">全天</td><td class="px-4 py-3">码头浅滩</td><td class="px-4 py-3"><span class="px-2 py-0.5 rounded-full text-xs bg-green-100 text-green-700">良好</span></td><td class="px-4 py-3">100金</td></tr>
+                    <tr class="hover:bg-gray-50"><td class="px-4 py-3 text-2xl">🐸</td><td class="px-4 py-3 font-medium">树蛙</td><td class="px-4 py-3 whitespace-nowrap">雨天</td><td class="px-4 py-3">森林水塘</td><td class="px-4 py-3"><span class="px-2 py-0.5 rounded-full text-xs bg-blue-100 text-blue-700">稀有</span></td><td class="px-4 py-3">180金</td></tr>
+                    <tr class="hover:bg-gray-50"><td class="px-4 py-3 text-2xl">🐢</td><td class="px-4 py-3 font-medium">小乌龟</td><td class="px-4 py-3 whitespace-nowrap">14:00-18:00</td><td class="px-4 py-3">小镇河流</td><td class="px-4 py-3"><span class="px-2 py-0.5 rounded-full text-xs bg-green-100 text-green-700">良好</span></td><td class="px-4 py-3">90金</td></tr>
+                    <tr class="hover:bg-gray-50"><td class="px-4 py-3 text-2xl">🦑</td><td class="px-4 py-3 font-medium">萤光鱿鱼</td><td class="px-4 py-3 whitespace-nowrap">22:00-02:00</td><td class="px-4 py-3">灯塔海域</td><td class="px-4 py-3"><span class="px-2 py-0.5 rounded-full text-xs bg-purple-100 text-purple-700">史诗</span></td><td class="px-4 py-3">600金</td></tr>
+                    <tr class="hover:bg-gray-50"><td class="px-4 py-3 text-2xl">🐋</td><td class="px-4 py-3 font-medium">小蓝鲸</td><td class="px-4 py-3 whitespace-nowrap">满月夜晚</td><td class="px-4 py-3">灯塔深海</td><td class="px-4 py-3"><span class="px-2 py-0.5 rounded-full text-xs bg-amber-100 text-amber-700">传说</span></td><td class="px-4 py-3">2000金</td></tr>
+                    <tr class="hover:bg-gray-50"><td class="px-4 py-3 text-2xl">🐡</td><td class="px-4 py-3 font-medium">泡泡鱼</td><td class="px-4 py-3 whitespace-nowrap">全天</td><td class="px-4 py-3">温泉池塘</td><td class="px-4 py-3"><span class="px-2 py-0.5 rounded-full text-xs bg-gray-100 text-gray-600">普通</span></td><td class="px-4 py-3">40金</td></tr>
+                    <tr class="hover:bg-gray-50"><td class="px-4 py-3 text-2xl">🐉</td><td class="px-4 py-3 font-medium">龙鱼</td><td class="px-4 py-3 whitespace-nowrap">暴风雨天</td><td class="px-4 py-3">灯塔深海</td><td class="px-4 py-3"><span class="px-2 py-0.5 rounded-full text-xs bg-amber-100 text-amber-700">传说</span></td><td class="px-4 py-3">3000金</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== 常见问题 ==================== -->
+<div id="page-faq" class="page">
+    <div class="max-w-3xl mx-auto px-4 py-8">
+        <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">❓ 常见问题</h1>
+        <p class="text-gray-500 mb-6">新手疑问快速解答</p>
+
+        <div class="space-y-3" id="faq-list">
+            <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between px-5 py-4 text-left">
+                    <span class="font-medium text-gray-800">新手开局应该优先做什么？</span>
+                    <span class="faq-icon text-primary-darker text-xl font-light ml-4 shrink-0">+</span>
+                </button>
+                <div class="faq-answer px-5"><div class="pb-4 text-sm text-gray-600 leading-relaxed">建议优先完成新手引导任务，领取免费工具和种子。然后开垦农田种植作物，钓鱼赚取初始金币，同时尽早与小镇NPC对话提升好感度，解锁更多功能和商品。</div></div>
+            </div>
+            <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between px-5 py-4 text-left">
+                    <span class="font-medium text-gray-800">金币不够用怎么快速赚钱？</span>
+                    <span class="faq-icon text-primary-darker text-xl font-light ml-4 shrink-0">+</span>
+                </button>
+                <div class="faq-answer px-5"><div class="pb-4 text-sm text-gray-600 leading-relaxed">前期最稳定的赚钱方式是钓鱼，稀有鱼售价很高。中期可以通过种植高价值作物和在周末集市出售手工品获利。记住周末农贸市场价格上浮20%，尽量在周末集中出售。</div></div>
+            </div>
+            <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between px-5 py-4 text-left">
+                    <span class="font-medium text-gray-800">怎么提升与NPC的好感度？</span>
+                    <span class="faq-icon text-primary-darker text-xl font-light ml-4 shrink-0">+</span>
+                </button>
+                <div class="faq-answer px-5"><div class="pb-4 text-sm text-gray-600 leading-relaxed">每天与NPC对话可获得少量好感度。赠送NPC喜欢的礼物能大幅提升好感度（每个NPC偏好不同）。完成NPC的委托任务也能提升好感度。达到特定好感度等级后会触发专属剧情。</div></div>
+            </div>
+            <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between px-5 py-4 text-left">
+                    <span class="font-medium text-gray-800">房屋怎么升级扩建？</span>
+                    <span class="faq-icon text-primary-darker text-xl font-light ml-4 shrink-0">+</span>
+                </button>
+                <div class="faq-answer px-5"><div class="pb-4 text-sm text-gray-600 leading-relaxed">前往杂货铺找到建筑商NPC，消耗金币和特定材料（木材、石材等）即可升级房屋。每次升级会增加房间数量和可摆放家具的空间。建议优先升级仓库容量。</div></div>
+            </div>
+            <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between px-5 py-4 text-left">
+                    <span class="font-medium text-gray-800">传说级鱼类怎么钓到？</span>
+                    <span class="faq-icon text-primary-darker text-xl font-light ml-4 shrink-0">+</span>
+                </button>
+                <div class="faq-answer px-5"><div class="pb-4 text-sm text-gray-600 leading-relaxed">传说级鱼类需要满足特定条件：正确的时间、地点和天气。例如龙鱼只在暴风雨天的灯塔深海出现。同时建议使用高级鱼竿和稀有鱼饵，提升成功率。具体可参考鱼点大全页面。</div></div>
+            </div>
+            <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between px-5 py-4 text-left">
+                    <span class="font-medium text-gray-800">矿洞有什么注意事项？</span>
+                    <span class="faq-icon text-primary-darker text-xl font-light ml-4 shrink-0">+</span>
+                </button>
+                <div class="faq-answer px-5"><div class="pb-4 text-sm text-gray-600 leading-relaxed">矿洞共5层，越深层矿石越稀有但体力消耗也越大。建议携带食物恢复体力，优先升级镐子提高采矿效率。每层都有隐藏宝箱，注意探索角落。体力耗尽会被送回入口且丢失部分物品。</div></div>
+            </div>
+            <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between px-5 py-4 text-left">
+                    <span class="font-medium text-gray-800">季节变化对游戏有什么影响？</span>
+                    <span class="faq-icon text-primary-darker text-xl font-light ml-4 shrink-0">+</span>
+                </button>
+                <div class="faq-answer px-5"><div class="pb-4 text-sm text-gray-600 leading-relaxed">每个季节会有不同的可种植作物、出现的鱼种和触发的节日活动。季节转换时上一季未收获的作物会枯萎，所以要注意安排种植时间。部分限定家具和装饰也只在特定季节出售。</div></div>
+            </div>
+            <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between px-5 py-4 text-left">
+                    <span class="font-medium text-gray-800">怎么解锁森林秘境和灯塔？</span>
+                    <span class="faq-icon text-primary-darker text-xl font-light ml-4 shrink-0">+</span>
+                </button>
+                <div class="faq-answer px-5"><div class="pb-4 text-sm text-gray-600 leading-relaxed">森林秘境在完成主线第二章后自动解锁。灯塔需要完成主线第三章并与灯塔守望者NPC好感度达到3星才能进入。建议推进主线的同时注意提升相关NPC好感度。</div></div>
+            </div>
+            <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between px-5 py-4 text-left">
+                    <span class="font-medium text-gray-800">家具摆放有什么技巧？</span>
+                    <span class="faq-icon text-primary-darker text-xl font-light ml-4 shrink-0">+</span>
+                </button>
+                <div class="faq-answer px-5"><div class="pb-4 text-sm text-gray-600 leading-relaxed">进入装修模式后可以自由拖拽家具。同系列家具摆放在一起会触发套装加成，增加房屋评分。房屋评分越高，来访邻居越多，还能解锁特殊互动动画。建议先确定风格再统一购买。</div></div>
+            </div>
+            <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between px-5 py-4 text-left">
+                    <span class="font-medium text-gray-800">离岛怎么去？有什么资源？</span>
+                    <span class="faq-icon text-primary-darker text-xl font-light ml-4 shrink-0">+</span>
+                </button>
+                <div class="faq-answer px-5"><div class="pb-4 text-sm text-gray-600 leading-relaxed">在码头乘船即可前往离岛，每次需要消耗500金币的船票。离岛有独特的热带水果、稀有贝壳和限定鱼种。每次前往停留时间有限，建议提前规划采集路线，优先收集稀有物品。</div></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 页脚 -->
+<footer class="bg-white border-t border-gray-100 mt-12">
+    <div class="max-w-6xl mx-auto px-4 py-6 text-center text-sm text-gray-400">
+        <p>《心动小镇》全攻略 — 非官方玩家社区制作</p>
+        <p class="mt-1">游戏内容版权归游戏开发者所有</p>
+    </div>
+</footer>
+
+<script>
+function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    document.querySelectorAll('.nav-link').forEach(l => {
+        l.classList.toggle('bg-primary-lighter', l.dataset.page === name);
+        l.classList.toggle('text-primary-darker', l.dataset.page === name);
+    });
+    window.scrollTo(0, 0);
+}
+
+function toggleMenu() {
+    document.getElementById('mobile-menu').classList.toggle('hidden');
+}
+
+function toggleFaq(btn) {
+    var answer = btn.nextElementSibling;
+    var icon = btn.querySelector('.faq-icon');
+    answer.classList.toggle('open');
+    icon.classList.toggle('open');
+}
+
+function filterFurniture(cat) {
+    document.querySelectorAll('.fur-tab').forEach(t => {
+        t.className = 'fur-tab px-4 py-2 rounded-full text-sm font-medium bg-white text-gray-600 border border-gray-200';
+    });
+    event.target.className = 'fur-tab px-4 py-2 rounded-full text-sm font-medium bg-primary text-white';
+    document.querySelectorAll('.fur-card').forEach(c => {
+        c.style.display = (cat === 'all' || c.dataset.cat === cat) ? '' : 'none';
+    });
+}
+</script>
+
+</body>
+</html>
